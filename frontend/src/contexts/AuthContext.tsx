@@ -9,9 +9,7 @@ interface TokenContext {
 
 const AuthContext = createContext<TokenContext | null>(null);
 
-export default function AuthProvider({
-    children,
-}: Readonly<{ children: ReactNode }>) {
+export default function AuthProvider({children}: Readonly<{ children: ReactNode }>) {
     const [token, setToken] = useState<string | null>(localStorage.getItem("auth_jwt"));
 
     const login = (token: string) => {
