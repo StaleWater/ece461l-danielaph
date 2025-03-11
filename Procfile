@@ -1,1 +1,1 @@
-web: gunicorn backend.flaskr.start:app
+web: gunicorn backend.flaskr.routing:app
