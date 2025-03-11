@@ -1,15 +1,24 @@
 from flask import Flask, redirect, request, url_for, render_template, send_from_directory
+import os
 import backend.flaskr.dataload as dataload
 
-app = Flask(__name__, static_folder='frontend/dist')
+app = Flask(__name__, static_folder='../../frontend/dist')
 
 users={}
 
-@app.route("/")
-def entry_page():    
+@app.route("/", defaults={'somePath': ''})
+@app.route('/<path:somePath>') # captures all paths not handled by other routes
+def entry_page(somePath):    
     #load from database
     users = dataload.load()
-    return send_from_directory(app.static_folder, 'index.html')
+
+    # any unrecognized path should search the static_folder
+    if somePath != '' and os.path.exists(f"{app.static_folder}/{somePath}"):
+        return send_from_directory(app.static_folder, somePath)
+
+    # if we don't find a matching file, send index.html
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/success<name>")
 def success(name):
