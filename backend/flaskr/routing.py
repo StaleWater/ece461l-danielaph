@@ -1,15 +1,15 @@
-from flask import Flask, redirect, request, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template, send_from_directory
 import backend.flaskr.dataload as dataload
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend/dist')
 
 users={}
 
 @app.route("/")
-def hello_world():    
+def entry_page():    
     #load from database
     users = dataload.load()
-    return render_template('form.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/success<name>")
 def success(name):
@@ -46,6 +46,3 @@ def create():
         return redirect("/")
     else:
         return "user already exists"
-
-if __name__ == '__main__':
-    app.run(debug=True)
