@@ -7,7 +7,7 @@ Andrew Britt, Daniela Caballero, Neha Karne, Kanaan Macias, Alfred Morales, Conn
 Have python and pip installed and runnable from the command line. 
 If you installed Python 3.4 or later with the installer on their website, pip comes with it.
 
-navigate to the backend directory of the repo and type:
+navigate to the root directory of the repo and type:
 ```
 pip install -r requirements.txt
 ```
