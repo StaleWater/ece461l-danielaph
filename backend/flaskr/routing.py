@@ -6,9 +6,10 @@ app = Flask(__name__, static_folder='../../frontend/dist')
 
 users={}
 
+# serve frontend files
 @app.route("/", defaults={'somePath': ''})
 @app.route('/<path:somePath>') # captures all paths not handled by other routes
-def entry_page(somePath):    
+def serve_frontend(somePath):    
     #load from database
     users = dataload.load()
 
@@ -20,11 +21,11 @@ def entry_page(somePath):
     else:
         return send_from_directory(app.static_folder, 'index.html')
 
-@app.route("/success<name>")
+@app.route("/api/success<name>")
 def success(name):
     return 'hello %s' % name
 
-@app.route('/login', methods=["POST"])
+@app.route('/api/login', methods=["POST"])
 def login():
     users = dataload.load()
     username = request.form.get("nm")
@@ -38,13 +39,7 @@ def login():
     else:
         return redirect('/signup')
     
-
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-
-
-@app.route('/create', methods=["POST"])
+@app.route('/api/create', methods=["POST"])
 def create():
     users = dataload.load()
     username = request.form.get("nm")
