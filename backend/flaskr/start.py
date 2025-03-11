@@ -1,5 +1,5 @@
 from flask import Flask, redirect, request, url_for, render_template
-import dataload
+import backend.flaskr.dataload as dataload
 
 app = Flask(__name__)
 
