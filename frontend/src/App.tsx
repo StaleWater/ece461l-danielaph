@@ -5,7 +5,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Projects from './components/Projects';
-
+import ProjectCreation from './components/ProjectCreation'; 
 import './App.css';
 
 function App() {
@@ -25,6 +25,17 @@ function App() {
               element={
                 <PrivateRoute>
                   <Projects />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create-project"
+              element={
+                <PrivateRoute>
+                  <ProjectCreation onCreateProject={(name, id) => {
+                    // Handle project creation logic here
+                    console.log(`Creating project: ${name} (ID: ${id})`);
+                  }} />
                 </PrivateRoute>
               }
             />
