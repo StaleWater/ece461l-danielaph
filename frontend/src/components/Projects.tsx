@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Typography, Box, Button, List, ListItem, ListItemText } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
-interface Project {
+export interface Project {
   name: string;
   id: string;
 }
 
-function Projects() {
-  const [projects, setProjects] = useState<Project[]>([]);
+interface ProjectsProps {
+  projects: Project[];
+}
+
+export function Projects({projects}: Readonly<ProjectsProps>) {
+  //const [projects, setProjects] = useState<Project[]>([]);
   const navigate = useNavigate();
 
-  const addProject = (project: Project) => {
-    setProjects([...projects, project]);
-  };
+  //const addProject = (project: Project) => {
+    //setProjects([...projects, project]);
+  //};
 
   return (
     <Box>

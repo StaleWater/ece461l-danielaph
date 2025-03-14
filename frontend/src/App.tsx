@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { Container, Typography } from '@mui/material';
 import { Routes, Route, Navigate } from "react-router-dom";
 import AuthProvider from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Projects from './components/Projects';
+import Projects, {Project} from './components/Projects';
 import ProjectCreation from './components/ProjectCreation'; 
 import './App.css';
 
 function App() {
+  const [projects, setProjects] = useState<Project[]>([]);
+
   return (
     <>
       <AuthProvider>
@@ -24,7 +27,7 @@ function App() {
               path="/projects"
               element={
                 <PrivateRoute>
-                  <Projects />
+                  <Projects projects={projects}/>
                 </PrivateRoute>
               }
             />
@@ -33,8 +36,10 @@ function App() {
               element={
                 <PrivateRoute>
                   <ProjectCreation onCreateProject={(name, id) => {
-                    // Handle project creation logic here
-                    console.log(`Creating project: ${name} (ID: ${id})`);
+                    let newProjects = projects;
+                    let newProject: Project = {name, id};
+                    newProjects.push(newProject);
+                    setProjects(newProjects);
                   }} />
                 </PrivateRoute>
               }
