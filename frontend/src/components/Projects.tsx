@@ -13,7 +13,7 @@ interface ProjectsProps {
 
 export function Projects({projects}: Readonly<ProjectsProps>) {
   //const [projects, setProjects] = useState<Project[]>([]);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   //const addProject = (project: Project) => {
     //setProjects([...projects, project]);
@@ -33,7 +33,7 @@ export function Projects({projects}: Readonly<ProjectsProps>) {
       <List>
         {projects.map((project, index) => (
           <ListItem key={index}>
-            <ListItemText primary={project.name} secondary={`ID: ${project.id}`} />
+            <ListItemText sx={{textAlign: "center"}} primary={project.name} secondary={`ID: ${project.id}`} slotProps={{secondary: {sx: {color: "white"}}}} />
           </ListItem>
         ))}
       </List>
