@@ -1,33 +1,25 @@
-# Task 1
-def encrypt(inputText, N, D):
-    ciphertext = ""
-    inputText = inputText[::-1]
+def encrypt(inputText):
+    _encrypt(inputText, 4, 1)
+
+def decrypt(inputText):
+    _decrypt(inputText, 4, 1)
+
+def _encrypt(inputText, N, D):
+    if N <= 0:
+        raise ValueError("invalid shift value")
+    if D != 1 and D != -1:
+        raise ValueError("invalid direction value")
+
+    rev = list(inputText[::-1])
+
+    for i in range(len(rev)):
+        num = ord(rev[i])
+        if num >= 34:
+            maxv = 127 - 34
+            val = ( ((num - 34) + N * D + maxv) % (maxv) ) + 34
+            rev[i] = chr(val)
     
-    for i in inputText:
-        char = ord(i)
-        if char == 32 or char == 33:
-            ciphertext += chr(char)
-        else:
-            ciphertext += chr(((char - 34 + (N * D)) % (126 - 34 + 1)) + 34)
-
-    return ciphertext
-
-# Task 2
-def decrypt(ciphertext, N, D):
-    inputText = ""
-    ciphertext = ciphertext[::-1]
-
-    for i in ciphertext:
-        char = ord(i)
-        if char == 32 or char == 33:
-            inputText += chr(char)
-        else:
-            inputText += chr(((char - 34 - (N * D)) % (126 - 34 + 1)) + 34)
-
-    return inputText
-
-def main():
-    print(encrypt("TEST", 2, 1))
-
-if __name__ == "__main__":
-    main()
+    return "".join(rev)
+            
+def _decrypt(inputText, N, D):
+    return encrypt(inputText, N, -D)
