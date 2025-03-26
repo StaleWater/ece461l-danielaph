@@ -1,24 +1,21 @@
 from backend.user import User
 from backend.hardwareSet import HardwareSet
-
-# TODO replace _users and _hw_sets with MongoDB files
-# TODO all private functions should access MongoDB
-
+from pymongo import MongoClient
 
 class Database:
     def __init__(self):
-        self._users = [User("admin", "password"), User("daniela", "123")]
-        self._hw_sets = [HardwareSet(0), HardwareSet(1)]
+        # MongoDB setup
+        client = MongoClient("")
+        db = client[""] 
+        self._users = db[""]
+        self._hardwareSet = db[""]
 
     def get_user(self, username):
         """ If user not found, returns None. """
-
         users = self._read_users()
-
         for user in users:
             if user.has_username(username):
                 return user
-        
         return None
 
     def add_or_update_user(self, user):
@@ -28,10 +25,9 @@ class Database:
         If database access failed, returns False.
         """
         users = self._read_users()
-
         if users is None:
             return False
-
+        
         found = False
         for i in range(len(users)):
             if users[i].has_username(user.username):
@@ -63,14 +59,13 @@ class Database:
         hw_sets = self._read_hw_sets()
         if hw_sets is None:
             return False
-
+        
         for i in range(len(hw_sets)):
             if hw_sets[i].hw_id == hw_set.hw_id:
                 hw_sets[i] = hw_set
-                return True
-
+                return self._write_hw_sets(hw_sets)
+        
         return False
-
         
 
     # -- PRIVATE FUNCTIONS --
@@ -81,7 +76,12 @@ class Database:
         Returns a list of User objects.
         if failed to read, returns None.
         """
-        return self._users
+        try:
+            user_docs = self._users.find()
+            return [User(doc["username"], doc["password"]) for doc in user_docs]
+        except Exception as e:
+            print(f"Error reading users from database: {e}")
+            return None
 
     def _write_users(self, users):
         """
@@ -89,8 +89,14 @@ class Database:
         users is a list of User objects.
         On success, returns True.
         """
-        self._users = users
-        return True
+        try:
+            self._users.delete_many({})
+            user_docs = [{"username": user.username, "password": user.password} for user in users]
+            self._users.insert_many(user_docs)
+            return True
+        except Exception as e:
+            print(f"Error writing users to database: {e}")
+            return False
 
     def _read_hw_sets(self):
         """
@@ -98,7 +104,12 @@ class Database:
         Returns a list of HardwareSet objects.
         if failed to read, returns None.
         """
-        return self._hw_sets
+        try:
+            hw_set_docs = self._hardwareSet.find()
+            return [HardwareSet(doc["hw_id"]) for doc in hw_set_docs]
+        except Exception as e:
+            print(f"Error reading hardware sets from database: {e}")
+            return None
 
     def _write_hw_sets(self, hw_sets):
         """
@@ -106,6 +117,12 @@ class Database:
         hw_sets is a list of HardwareSet objects.
         On success, returns True.
         """
-        self._hw_sets = hw_sets
-        return True
+        try:
+            self._hardwareSet.delete_many({})
+            hw_set_docs = [{"hw_id": hw_set.hw_id} for hw_set in hw_sets]
+            self._hardwareSet.insert_many(hw_set_docs)
+            return True
+        except Exception as e:
+            print(f"Error writing hardware sets to database: {e}")
+            return False
 
