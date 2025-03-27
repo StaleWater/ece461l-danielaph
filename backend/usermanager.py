@@ -1,9 +1,10 @@
 from backend.database import Database
 from backend.user import User
+from backend.project import Project
 
 class UserManager:
-    def __init__(self, database):
-        self.db = database
+    def __init__(self, db: Database):
+        self.db = db
 
     def authenticate(self, username, password):
         user = self.db.get_user(username)
@@ -25,7 +26,7 @@ class UserManager:
         user = User(username, password)      
 
         if not self.db.add_or_update_user(user):
-            raise Exception("Failed to update database.")
+            raise Exception("Failed to update User collection.")
         
 
     def get_user_projects(self, username):
@@ -34,4 +35,10 @@ class UserManager:
             raise Exception("User does not exist.")
         
         return user.project_ids
+
+    def make_new_project(self, username, pid, proj_name, description):
+        project = Project(pid, proj_name, username, description)
+
+        if not self.db.add_or_update_project(project):
+            raise Exception("Failed to update Project collection")
         
