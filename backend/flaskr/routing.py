@@ -23,7 +23,7 @@ def serve_frontend(somePath):
     else:
         return send_from_directory(app.static_folder, 'index.html')
 
-@app.route('/api/login')
+@app.route('/api/login', methods=['GET'])
 def login():
     username = request.args.get("uname")
     password = request.args.get("pw")
@@ -37,18 +37,18 @@ def login():
         return Response(error_msg, status=401)
 
     
-@app.route('/api/signup')
+@app.route('/api/signup', methods=['POST'])
 def signup():
     username = request.args.get("uname")
     password = request.args.get("pw")
 
     try:
-        """user_man.signup(username, password)"""
-        return "success"
+        user_man.signup(username, password)
+        return Response("Success", status=201)
     
     except Exception as e:
         error_msg = e.args[0]
-        return error_msg
+        return Response(error_msg, status=401)
 
 
 @app.route('/api/get-user-projects')

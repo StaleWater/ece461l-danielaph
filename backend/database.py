@@ -32,13 +32,14 @@ class Database:
         Otherwise, adds a new user.
         If database access failed, returns False.
         """
-        users = self._read_users()
+        #users = self._read_users()
+        users = self._users
         if users is None:
             return False
         
         found = False
         for i in range(len(users)):
-            if users[i].has_username(user.username):
+            if users[i].e_username == user.e_username:
                 # user already exists, update
                 users[i] = user
                 found = True
@@ -48,7 +49,7 @@ class Database:
             users.append(user)
 
         # Write updated list back to database
-        return self._write_users(users)
+        return True#self._write_users(users)
 
     def get_hw_set(self, hwid):
         """ If hw set not found, returns None. """

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import request, { Method } from "../util/request"
 import ErrorMessages from './ErrorMessages';
 import SuccessMessages from './SuccessMessages';
 
@@ -11,18 +12,18 @@ function Signup() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const handleSignup = () => {
-    // Simulate signup logic
-    if (userId == "" || password == "") {
-        setErrorMessage('User ID and Password fields must not be blank.');
-        setSuccessMessage('');
-    } else if (userId === "admin") {
-        setErrorMessage('User ID already registered.');
-        setSuccessMessage('');
-    } else {
-        setSuccessMessage('Registration successful!');
-        setErrorMessage('');
-    }
+  const handleSignup = async () => {
+    const response = await request(`signup?uname=${encodeURIComponent(userId)}&pw=${encodeURIComponent(password)}`, Method.Post)
+    
+        if(response.ok) {
+          setSuccessMessage("Registration succcessful! Please log in to your account.");
+          setErrorMessage('');
+          setTimeout(() => navigate("/login"), 2000)
+        } else {
+          const error = await response.text();
+          setSuccessMessage('');
+          setErrorMessage(error);
+        }
   };
 
   return (
