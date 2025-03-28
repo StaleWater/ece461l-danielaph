@@ -1,8 +1,8 @@
 def encrypt(inputText):
-    _encrypt(inputText, 4, 1)
+    return _encrypt(inputText, 4, 1)
 
 def decrypt(inputText):
-    _decrypt(inputText, 4, 1)
+    return _decrypt(inputText, 4, 1)
 
 def _encrypt(inputText, N, D):
     if N <= 0:
@@ -22,4 +22,4 @@ def _encrypt(inputText, N, D):
     return "".join(rev)
             
 def _decrypt(inputText, N, D):
-    return encrypt(inputText, N, -D)
+    return _encrypt(inputText, N, -D)

@@ -1,9 +1,8 @@
-from flask import Flask, redirect, request, url_for, render_template, send_from_directory
+from flask import Flask, redirect, request, url_for, render_template, send_from_directory, Response
 import os
 from backend.usermanager import UserManager
 from backend.hardwareManager import HardwareManager
 from backend.database import Database
-import jwt
 
 app = Flask(__name__, static_folder='../../frontend/dist')
 
@@ -30,13 +29,12 @@ def login():
     password = request.args.get("pw")
 
     try:
-        """user_man.authenticate(username, password)"""
-        user_jwt = jwt.encode({"username": username}, "replaceSecretWithAProperOne", algorithm="HS256")
-        return user_jwt
+        jwt = user_man.authenticate(username, password)
+        return Response(jwt, status=201)
 
     except Exception as e:
         error_msg = e.args[0]
-        return error_msg
+        return Response(error_msg, status=401)
 
     
 @app.route('/api/signup')
@@ -45,7 +43,7 @@ def signup():
     password = request.args.get("pw")
 
     try:
-        user_man.signup(username, password)
+        """user_man.signup(username, password)"""
         return "success"
     
     except Exception as e:

@@ -1,6 +1,7 @@
 from backend.database import Database
 from backend.user import User
 from backend.project import Project
+import jwt
 
 class UserManager:
     def __init__(self, db: Database):
@@ -14,7 +15,8 @@ class UserManager:
         if not user.has_password(password):
             raise Exception("Password is incorrect.")
         
-        return (True, "") 
+        user_jwt = jwt.encode({"username": username}, "replaceSecretWithAProperOne", algorithm="HS256")
+        return user_jwt
 
 
     def signup(self, username, password):

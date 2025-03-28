@@ -10,7 +10,7 @@ class User(MongoObject):
         self.project_ids = []  
     
     def has_username(self, username):
-        return decrypt(self._e_username) == username
+        return decrypt(self.e_username) == username
 
     def has_password(self, password):
-        return decrypt(self._e_password) == password
+        return decrypt(self.e_password) == password

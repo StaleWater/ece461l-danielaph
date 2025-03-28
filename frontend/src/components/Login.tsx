@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext"
+import request, { Method } from "../util/request"
 import ErrorMessages from './ErrorMessages';
 import SuccessMessages from './SuccessMessages';
 
@@ -14,16 +15,19 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const handleLogin = () => {
-    // Simulate login logic
-    if (userId === 'admin' && password === 'password') {
-      setSuccessMessage('Login successful!');
+  const handleLogin = async () => {
+    const response = await request(`login?uname=${encodeURIComponent(userId)}&pw=${encodeURIComponent(password)}`, Method.Get)
+
+    if(response.ok) {
+      const token = await response.text();
+      setSuccessMessage(token);
       setErrorMessage('');
-      auth?.login("jwtgoeshere");
+      auth?.login({ token: token });
       setTimeout(() => navigate("/projects"), 2000)
     } else {
-      setErrorMessage('Invalid User ID or Password.');
+      const error = await response.text();
       setSuccessMessage('');
+      setErrorMessage(error);
     }
   };
 

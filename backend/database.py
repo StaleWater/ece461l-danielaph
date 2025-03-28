@@ -20,7 +20,7 @@ class Database:
 
     def get_user(self, username):
         """ If user not found, returns None. """
-        users = self._read_users()
+        users = self._users#self._read_users()
         for user in users:
             if user.has_username(username):
                 return user
