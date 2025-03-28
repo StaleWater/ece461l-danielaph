@@ -5,12 +5,18 @@ from pymongo import MongoClient
 
 class Database:
     def __init__(self):
+        """
         # MongoDB setup
         client = MongoClient("")
         db = client[""] 
         self._users = db["Users"]
         self._hardwareSet = db["HardwareSets"]
         self._projects = db["Projects"]
+        """
+        # Commenting out the above until we have the mongo client link
+        self._users = [User("admin", "password")]
+        self._hardwareSet = [HardwareSet(0, 100, 0), HardwareSet(1, 100, 0)]
+        self._projects = [Project(1, "Daniela's Project", "admin", "very cool project")]
 
     def get_user(self, username):
         """ If user not found, returns None. """
