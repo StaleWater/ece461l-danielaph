@@ -3,6 +3,7 @@ import os
 from backend.usermanager import UserManager
 from backend.hardwareManager import HardwareManager
 from backend.database import Database
+import jwt
 
 app = Flask(__name__, static_folder='../../frontend/dist')
 
@@ -29,8 +30,9 @@ def login():
     password = request.args.get("pw")
 
     try:
-        user_man.authenticate(username, password)
-        return "success"
+        """user_man.authenticate(username, password)"""
+        user_jwt = jwt.encode({"username": username}, "replaceSecretWithAProperOne", algorithm="HS256")
+        return user_jwt
 
     except Exception as e:
         error_msg = e.args[0]

@@ -1,20 +1,25 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+export interface Token {
+    token: string;
+}
+
 // This is our "auth object", which allows us to set and fetch the JWT from anywhere within an AuthProvider.
 interface TokenContext { 
-    token : string | null;
-    login: (token: string) => void;
+    token : Token | null;
+    login: (token: Token) => void;
     logout: () => void;
 }
 
 const AuthContext = createContext<TokenContext | null>(null);
 
 export default function AuthProvider({children}: Readonly<{ children: ReactNode }>) {
-    const [token, setToken] = useState<string | null>(localStorage.getItem("auth_jwt"));
+    const savedToken = localStorage.getItem("auth_jwt");
+    const [token, setToken] = useState<Token | null>(savedToken ? {token: savedToken} : null);
 
-    const login = (token: string) => {
+    const login = (token: Token) => {
         setToken(token);
-        localStorage.setItem("auth_jwt", token);
+        localStorage.setItem("auth_jwt", token.token);
     };
     const logout = () => {
         setToken(null);
@@ -32,5 +37,8 @@ export default function AuthProvider({children}: Readonly<{ children: ReactNode 
 // This hook is how you'll actually fetch token data on the fly.
 export function useAuth() {
     const context = useContext(AuthContext);
+    if(!context)
+        throw new Error("Not within AuthProvider context.");
+
     return context;
 }

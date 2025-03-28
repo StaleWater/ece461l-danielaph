@@ -3,11 +3,10 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.tsx";
 
 export default function PrivateRoute({children}: Readonly<{children: ReactNode}>) {
-    const auth = useAuth();
+    const { token } = useAuth();
 
     // Redirect to login if we're not authenticated
-    if (!auth?.token) return <Navigate to="/login" replace />;
-    const token = auth?.token;
+    if (!token) return <Navigate to="/login" replace />;
 
     return (
         <>
