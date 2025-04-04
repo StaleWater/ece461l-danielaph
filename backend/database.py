@@ -5,22 +5,21 @@ from pymongo import MongoClient
 
 class Database:
     def __init__(self):
-        """
         # MongoDB setup
-        client = MongoClient("")
-        db = client[""] 
+        client = MongoClient("mongodb+srv://cmstewart:ECE461L@swelab.yskcb.mongodb.net/")
+        db = client["SWELab"] 
         self._users = db["Users"]
         self._hardwareSet = db["HardwareSets"]
         self._projects = db["Projects"]
-        """
+    """
         # Commenting out the above until we have the mongo client link
         self._users = [User("admin", "password")]
         self._hardwareSet = [HardwareSet(0, 100, 0), HardwareSet(1, 100, 0)]
         self._projects = [Project(1, "Daniela's Project", "admin", "very cool project")]
-
+        """
     def get_user(self, username):
         """ If user not found, returns None. """
-        users = self._users#self._read_users()
+        users = self._read_users()
         for user in users:
             if user.has_username(username):
                 return user
@@ -32,8 +31,8 @@ class Database:
         Otherwise, adds a new user.
         If database access failed, returns False.
         """
-        #users = self._read_users()
-        users = self._users
+        users = self._read_users()
+        # users = self._users
         if users is None:
             return False
         
@@ -49,7 +48,8 @@ class Database:
             users.append(user)
 
         # Write updated list back to database
-        return True#self._write_users(users)
+        self._write_users(users)
+        return True
 
     def get_hw_set(self, hwid):
         """ If hw set not found, returns None. """
