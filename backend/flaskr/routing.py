@@ -3,6 +3,7 @@ import os
 from backend.usermanager import UserManager
 from backend.hardwareManager import HardwareManager
 from backend.database import Database
+from backend.auth_middleware import authorized
 
 app = Flask(__name__, static_folder='../febuild')
 
@@ -52,8 +53,8 @@ def signup():
 
 
 @app.route('/api/get-user-projects', methods=['GET'])
-def get_user_projects():
-    username = request.args.get("uname")
+@authorized
+def get_user_projects(username):
     try:
         project_ids = user_man.get_user_projects(username)
         return Response(project_ids, status=201)
@@ -64,8 +65,8 @@ def get_user_projects():
 
 
 @app.route('/api/make-new-project', methods=['POST'])
-def make_new_project():
-    username = request.args.get("uname")
+@authorized
+def make_new_project(username):
     pid = request.args.get("pid")
     proj_name = request.args.get("pname")
     description = request.args.get("desc")
@@ -77,9 +78,22 @@ def make_new_project():
     except Exception as e:
         error_msg = e.args[0]
         return Response(error_msg, 401)
+    
+@app.route('/api/join-project', methods=['POST'])
+@authorized
+def join_project(username):
+    pid = request.args.get("pid")
+
+    try:
+        user_man.join_project(username, pid)
+    
+    except Exception as e:
+        error_msg = e.args[0]
+        return Response(error_msg, 401)
 
 @app.route('/api/get-project-info', methods=['GET'])
-def get_project_info():
+@authorized
+def get_project_info(username):
     pid = request.args.get("pid")
 
     try:
@@ -91,7 +105,8 @@ def get_project_info():
         return Response(error_msg, 401)
 
 @app.route('/api/get-amt-checked_out', methods=['GET'])
-def get_amt_checked_out():
+@authorized
+def get_amt_checked_out(username):
     pid = request.args.get("pid")
     hwid = request.args.get("hwid")
 
@@ -105,7 +120,8 @@ def get_amt_checked_out():
 
 
 @app.route('/api/get-hwset-info', methods=['GET'])
-def get_hwset_info():
+@authorized
+def get_hwset_info(username):
     hwid = request.args.get("hwid")
 
     try:
@@ -118,7 +134,8 @@ def get_hwset_info():
 
 
 @app.route('/api/checkin', methods=['POST'])
-def checkin():
+@authorized
+def checkin(username):
     hwid = request.args.get("hwid")
     qty = request.args.get("qty")
     pid = request.args.get("pid")
@@ -135,7 +152,8 @@ def checkin():
         return Response(error_msg, 401)
 
 @app.route('/api/checkout', methods=['POST'])
-def checkout():
+@authorized
+def checkout(username):
     hwid = request.args.get("hwid")
     qty = request.args.get("qty")
     pid = request.args.get("pid")
