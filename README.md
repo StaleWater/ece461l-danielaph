@@ -50,4 +50,4 @@ After pushing your changes to the main git branch, type:
 git push heroku main
 ```
 This will deploy to Heroku's cloud server. 
-If this succeeds, the server should be running at https://swlab-project-64cf8709a7ee.herokuapp.com/
+If this succeeds, the server should be running at [https://swlab-project-64cf8709a7ee.herokuapp.com/](https://swlab-a23f6a354f04.herokuapp.com/)
