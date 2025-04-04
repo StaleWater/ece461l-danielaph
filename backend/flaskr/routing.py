@@ -4,7 +4,7 @@ from backend.usermanager import UserManager
 from backend.hardwareManager import HardwareManager
 from backend.database import Database
 
-app = Flask(__name__, static_folder='../../frontend/dist')
+app = Flask(__name__, static_folder='../febuild')
 
 db = Database()
 user_man = UserManager(db)
