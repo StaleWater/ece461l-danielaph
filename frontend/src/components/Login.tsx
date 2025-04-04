@@ -19,10 +19,11 @@ function Login() {
     const response = await request(`login?uname=${encodeURIComponent(userId)}&pw=${encodeURIComponent(password)}`, Method.Get)
 
     if(response.ok) {
-      const token = await response.text();
-      setSuccessMessage(token);
+      const tokenData = await response.text();
+      setSuccessMessage(tokenData);
       setErrorMessage('');
-      auth?.login({ token: token });
+      const token = {token: tokenData}
+      auth?.login(token);
       setTimeout(() => navigate("/projects"), 2000)
     } else {
       const error = await response.text();

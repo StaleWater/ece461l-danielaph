@@ -44,3 +44,5 @@ class UserManager:
         if not self.db.add_or_update_project(project):
             raise Exception("Failed to update Project collection")
         
+    def join_project(self, username, pid):
+        return True

@@ -86,6 +86,7 @@ def join_project(username):
 
     try:
         user_man.join_project(username, pid)
+        return Response("Success", 201)
     
     except Exception as e:
         error_msg = e.args[0]

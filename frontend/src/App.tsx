@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Projects, {Project} from './components/Projects';
 import ProjectCreation from './components/ProjectCreation'; 
+import ProjectJoin from './components/ProjectJoin'; 
 import './App.css';
 
 function App() {
@@ -28,6 +29,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <Projects projects={projects}/>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/join-project"
+              element={
+                <PrivateRoute>
+                  <ProjectJoin />
                 </PrivateRoute>
               }
             />
