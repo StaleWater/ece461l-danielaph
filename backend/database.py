@@ -6,7 +6,7 @@ from pymongo import MongoClient
 class Database:
     def __init__(self):
         # MongoDB setup
-        client = MongoClient("mongodb+srv://cmstewart:ECE461L@swelab.yskcb.mongodb.net/")
+        client = MongoClient("mongodb+srv://cmstewart:ECE461L@swelab.yskcb.mongodb.net/?authSource=admin")
         db = client["SWELab"] 
         self._users = db["Users"]
         self._hardwareSet = db["HardwareSets"]
