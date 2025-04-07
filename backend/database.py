@@ -7,7 +7,7 @@ class Database:
     def __init__(self):
         # MongoDB setup
         client = MongoClient("mongodb+srv://cmstewart:ECE461L@swelab.yskcb.mongodb.net/?authSource=admin")
-        db = client["SWELab"] 
+        db = client["Team_Project"] 
         self._users = db["Users"]
         self._hardwareSet = db["HardwareSets"]
         self._projects = db["Projects"]
