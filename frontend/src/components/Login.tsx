@@ -39,7 +39,7 @@ function Login() {
       <Box sx={{ mt: 3 }}>
         <Typography variant="h5">Login</Typography>
         <TextField
-          label="User ID"
+          label="Go die or else"
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
           fullWidth
