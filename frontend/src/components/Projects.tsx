@@ -34,7 +34,7 @@ export function Projects({projects}: Readonly<ProjectsProps>) {
         <List>
           {projects.map((project, index) => (
             <ListItem key={index}>
-              <ListItemText sx={{textAlign: "center"}} primary={project.name} secondary={`ID: ${project.id}`} slotProps={{secondary: {sx: {color: "white"}}}} />
+              <ListItemText sx={{textAlign: "center"}} primary={project.name} secondary={`ID: ${project.id}`} slotProps={{secondary: {sx: {color: "text.primary"}}}} />
             </ListItem>
           ))}
         </List>
