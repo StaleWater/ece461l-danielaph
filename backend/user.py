@@ -14,3 +14,17 @@ class User(MongoObject):
 
     def has_password(self, password):
         return decrypt(self.e_password) == password
+    
+    def add_user_project(self, pid):
+        if pid in self.project_ids:
+            return None
+        else:
+            self.project_ids.append(pid)
+            return self.project_ids
+
+    def remove_user_project(self, pid):
+        if pid not in self.project_ids:
+            return None
+        else:
+            self.project_ids.remove(pid)
+            return self.project_ids

@@ -18,7 +18,6 @@ class UserManager:
         user_jwt = jwt.encode({"username": username}, "replaceSecretWithAProperOne", algorithm="HS256")
         return user_jwt
 
-
     def signup(self, username, password):
         user = self.db.get_user(username)
         if user is not None:
@@ -45,4 +44,17 @@ class UserManager:
             raise Exception("Failed to update Project collection")
         
     def join_project(self, username, pid):
+        user = self.db.get_user(username)
+        project = self.db.get_project(pid)
+        if user is None or  project is None:
+            raise Exception("Project or User not found")
+        else:
+            if user.add_user_project(pid) is None:
+                raise Exception("Failed to update user's project list")
+            if not self.db.add_or_update_user(user):
+                raise Exception("Failed to update User collection.")
+            if project.add_project_user(username) is None:
+                raise Exception("Failed to update project's user list")
+            if not self.db.add_or_update_project(project):
+                raise Exception("Failed to update Project collection")
         return True
