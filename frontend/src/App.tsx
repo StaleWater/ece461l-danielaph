@@ -27,7 +27,7 @@ function App() {
               path="/projects"
               element={
                 <PrivateRoute>
-                  <Projects projects={projects}/>
+                  <Projects />
                 </PrivateRoute>
               }
             />

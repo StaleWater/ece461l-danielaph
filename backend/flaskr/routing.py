@@ -59,7 +59,8 @@ def signup():
 def get_user_projects(username):
     try:
         projects = user_man.get_user_projects(username)
-        return Response(str(json.loads(json_util.dumps([project.__dict__ for project in projects]))), status=201)
+        jsonString = str(json.loads(json_util.dumps([project.__dict__ for project in projects])))
+        return Response(jsonString.replace("'", "\""), status=201)
     
     except Exception as e:
         error_msg = e.args[0]

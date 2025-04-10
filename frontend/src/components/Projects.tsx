@@ -1,16 +1,34 @@
 import { Typography, Box, Button, List, ListItem, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import request, { Method } from "../util/request"
+import { Token } from "../contexts/AuthContext";
 
 export interface Project {
+  pid: string;
   name: string;
-  id: string;
+  description: string;
 }
 
-interface ProjectsProps {
-  projects: Project[];
+interface ProjectProps {
+  token: Token;
 }
 
-export function Projects({projects}: Readonly<ProjectsProps>) {
+export function Projects({token}: Readonly<ProjectProps>) {
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    request("/get-user-projects", Method.Get, token)
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data: Project[]) => {
+        setProjects(data);
+      })
+      .catch((err) => console.log(err));
+  })
+
   return (
     <>
       <Box>
@@ -34,7 +52,7 @@ export function Projects({projects}: Readonly<ProjectsProps>) {
         <List>
           {projects.map((project, index) => (
             <ListItem key={index}>
-              <ListItemText sx={{textAlign: "center"}} primary={project.name} secondary={`ID: ${project.id}`} slotProps={{secondary: {sx: {color: "text.primary"}}}} />
+              <ListItemText sx={{textAlign: "center"}} primary={project.name} secondary={`ID: ${project.pid}`} slotProps={{secondary: {sx: {color: "text.primary"}}}} />
             </ListItem>
           ))}
         </List>
