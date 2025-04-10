@@ -11,12 +11,7 @@ class Database:
         self._users = db["Users"]
         self._hardwareSet = db["HardwareSets"]
         self._projects = db["Projects"]
-    """
-        # Commenting out the above until we have the mongo client link
-        self._users = [User("admin", "password")]
-        self._hardwareSet = [HardwareSet(0, 100, 0), HardwareSet(1, 100, 0)]
-        self._projects = [Project(1, "Daniela's Project", "admin", "very cool project")]
-        """
+        
     def get_user(self, username):
         """ If user not found, returns None. """
         users = self._read_users()
@@ -98,7 +93,7 @@ class Database:
         
         found = False
         for i in range(len(projects)):
-            if projects[i].pid == projects.pid:
+            if projects[i].pid == project.pid:
                 found = True
                 projects[i] = project
                 break
@@ -117,7 +112,7 @@ class Database:
         if failed to read, returns None.
         """
         try:
-            user_docs = self._users.find()
+            user_docs = self._users.find({}, {'_id': False})
             return [User().deserialize(doc) for doc in user_docs]
         except Exception as e:
             print(f"Error reading users from database: {e}")
@@ -145,7 +140,7 @@ class Database:
         if failed to read, returns None.
         """
         try:
-            hw_set_docs = self._hardwareSet.find()
+            hw_set_docs = self._hardwareSet.find({}, {'_id': False})
             return [HardwareSet().deserialize(doc) for doc in hw_set_docs]
         except Exception as e:
             print(f"Error reading hardware sets from database: {e}")
@@ -173,7 +168,7 @@ class Database:
         if failed to read, returns None.
         """
         try:
-            proj_docs = self._projects.find()
+            proj_docs = self._projects.find({}, {'_id': False})
             return [Project().deserialize(doc) for doc in proj_docs]
         except Exception as e:
             print(f"Error reading projects from database: {e}")

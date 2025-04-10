@@ -43,12 +43,7 @@ function App() {
               path="/create-project"
               element={
                 <PrivateRoute>
-                  <ProjectCreation onCreateProject={(name, id) => {
-                    let newProjects = projects;
-                    let newProject: Project = {name, id};
-                    newProjects.push(newProject);
-                    setProjects(newProjects);
-                  }} />
+                  <ProjectCreation />
                 </PrivateRoute>
               }
             />

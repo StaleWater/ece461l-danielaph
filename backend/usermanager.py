@@ -37,20 +37,34 @@ class UserManager:
         
         return user.project_ids
 
+        projects = []
+        for pid in user.project_ids:
+            project = self.db.get_project(pid)
+            if project is not None:
+                projects.append(project)
+        
+        return projects
+    
     def make_new_project(self, username, pid, proj_name, description):
         project = Project(pid, proj_name, username, description)
 
+        if self.db.get_project(pid) is not None:
+            raise Exception("Project ID is already in use.")
         if not self.db.add_or_update_project(project):
             raise Exception("Failed to update Project collection")
+        
+        self.join_project(username, pid)
         
     def join_project(self, username, pid):
         user = self.db.get_user(username)
         project = self.db.get_project(pid)
-        if user is None or  project is None:
-            raise Exception("Project or User not found")
+        if user is None:
+            raise Exception("User not found.")
+        if project is None:
+            raise Exception("Project not found.")
         else:
             if user.add_user_project(pid) is None:
-                raise Exception("Failed to update user's project list")
+                raise Exception("You are already associated with this project.")
             if not self.db.add_or_update_user(user):
                 raise Exception("Failed to update User collection.")
             if project.add_project_user(username) is None:

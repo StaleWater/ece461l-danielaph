@@ -1,5 +1,7 @@
 from flask import Flask, redirect, request, url_for, render_template, send_from_directory, Response
 import os
+from bson import json_util
+import json
 from backend.usermanager import UserManager
 from backend.hardwareManager import HardwareManager
 from backend.database import Database
@@ -56,8 +58,8 @@ def signup():
 @authorized
 def get_user_projects(username):
     try:
-        project_ids = user_man.get_user_projects(username)
-        return Response(project_ids, status=201)
+        projects = user_man.get_user_projects(username)
+        return Response(str(json.loads(json_util.dumps([project.__dict__ for project in projects]))), status=201)
     
     except Exception as e:
         error_msg = e.args[0]

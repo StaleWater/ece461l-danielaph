@@ -7,7 +7,6 @@ class Project(MongoObject):
         self.description = description
         self.owner_username = owner_username
         self.current_users = []
-        self.checked_out = {}
 
     def add_project_user(self, username):
         if username in self.current_users:

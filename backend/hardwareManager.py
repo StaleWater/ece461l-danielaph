@@ -21,7 +21,6 @@ class HardwareManager:
 
         hwset.availability -= amt
         hwset.checked_out[pid] += amt
-        project.checked_out[hwid] += amt
 
         self.db.add_or_update_hw_set(hwset)
         self.db.add_or_update_project(project)
@@ -46,7 +45,6 @@ class HardwareManager:
         
         hwset.availability += qty
         hwset.checked_out[pid] -= qty
-        project.checked_out[hwid] -= qty
 
         self.db.add_or_update_hw_set(hwset)
         self.db.add_or_update_project(project)
