@@ -28,6 +28,9 @@ function Signup() {
 
   return (
     <>
+      <Typography variant="h3" align="center" gutterBottom>
+        Daniela PowerHour
+      </Typography>
       {errorMessage && <ErrorMessages message={errorMessage} />}
       {successMessage && <SuccessMessages message={successMessage} />}
       <Box sx={{ mt: 3 }}>

@@ -1,0 +1,15 @@
+.app-navbar {
+    width: 100%;
+    flex-direction: row !important;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: white !important;
+    box-shadow: none !important;
+    height: 80px;
+}
+
+.logout-button {
+    width: 10%;
+    margin-right: 25px !important;
+    color: white;
+}

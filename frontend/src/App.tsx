@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 import { Routes, Route, Navigate } from "react-router-dom";
 import AuthProvider from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import Navbar from "./components/Navbar";
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Projects, {Project} from './components/Projects';
@@ -16,10 +17,8 @@ function App() {
   return (
     <>
       <AuthProvider>
+        <Navbar/>
         <Container>
-          <Typography variant="h3" align="center" gutterBottom>
-            HaaS System
-          </Typography>
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<Login />} />
