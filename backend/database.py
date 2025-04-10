@@ -57,6 +57,9 @@ class Database:
                 return hw
         
         return None
+    
+    def get_hw_sets(self):
+        return self._read_hw_sets()
 
     def add_or_update_hw_set(self, hw_set):
         """ If database access failed, returns False.  """

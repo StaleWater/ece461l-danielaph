@@ -1,0 +1,31 @@
+.hardwareset-container {
+    display: flex;
+    background-color: blue;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+}
+
+.set-name {
+    color: white;
+    font-size: 24px;
+}
+
+.control-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

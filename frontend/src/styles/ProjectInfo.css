@@ -1,0 +1,18 @@
+.project-info-container {
+    display: flex;
+    background-color: red;
+    border-radius: 5px;
+    width: 70%;
+}
+
+.project-info-text {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.hardware-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}

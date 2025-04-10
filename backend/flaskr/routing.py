@@ -123,14 +123,13 @@ def get_amt_checked_out(username):
         return Response(error_msg, 401)
 
 
-@app.route('/api/get-hwset-info', methods=['GET'])
+@app.route('/api/get-hwsets', methods=['GET'])
 @authorized
-def get_hwset_info(username):
-    hwid = request.args.get("hwid")
-
+def get_hwsets(username):
     try:
-        hwset = db.get_hw_set(hwid)
-        return Response(hwset.serialize(), status=201)
+        hwsets = db.get_hw_sets()
+        jsonString = str(json.loads(json_util.dumps([hwset.__dict__ for hwset in hwsets])))
+        return Response(jsonString.replace("'", "\""), status=201)
     
     except Exception as e:
         error_msg = e.args[0]
