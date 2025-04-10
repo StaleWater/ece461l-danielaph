@@ -35,8 +35,6 @@ class UserManager:
         if user is None:
             raise Exception("User does not exist.")
         
-        return user.project_ids
-
         projects = []
         for pid in user.project_ids:
             project = self.db.get_project(pid)
