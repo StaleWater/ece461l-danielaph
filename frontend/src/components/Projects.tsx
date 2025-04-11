@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import request, { Method } from "../util/request"
 import { Token } from "../contexts/AuthContext";
 import ProjectInfo from "./ProjectInfo"
+import ErrorMessages from './ErrorMessages';
 
 export interface Project {
   pid: string;
@@ -31,6 +32,7 @@ export function Projects({token}: Readonly<ProjectProps>) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [hardwareSets, setHardwareSets] = useState<HardwareSet[]>([]);
   const [forceUpdate, setForceUpdate] = useState<number>(0);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const delay = (ms: number) => {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -53,7 +55,8 @@ export function Projects({token}: Readonly<ProjectProps>) {
       .catch((err) => console.log(err)); 
   }, [forceUpdate])
 
-  const forceRender = () => {
+  const forceRender = (message: string = "") => {
+    setErrorMessage(message);
     setForceUpdate(forceUpdate + 1);
   }
 
@@ -77,6 +80,7 @@ export function Projects({token}: Readonly<ProjectProps>) {
         >
           Join Project
         </Button>
+        {errorMessage && <ErrorMessages message={errorMessage} />}
         <List>
           {projects.map((project, index) => (
             <ListItem key={index} sx={{justifyContent: "center"}}>

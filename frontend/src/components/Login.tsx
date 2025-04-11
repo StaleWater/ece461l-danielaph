@@ -20,7 +20,7 @@ function Login() {
 
     if(response.ok) {
       const tokenData = await response.text();
-      setSuccessMessage(tokenData);
+      setSuccessMessage("Login successful! Loading projects...");
       setErrorMessage('');
       const token = {token: tokenData}
       auth?.login(token);

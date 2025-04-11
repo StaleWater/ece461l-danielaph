@@ -9,7 +9,7 @@ interface HardwareControlProps {
     token: Token;
     hardwareSet: HardwareSet;
     pid: string;
-    updateFunc: () => void;
+    updateFunc: (message: string) => void;
 }
 
 export default function HardwareControl({token, hardwareSet, pid, updateFunc}: Readonly<HardwareControlProps>) {
@@ -31,13 +31,16 @@ export default function HardwareControl({token, hardwareSet, pid, updateFunc}: R
         request(`checkin?hwid=${encodeURIComponent(hardwareSet.hwid)}&qty=${encodeURIComponent(quantity.toString())}&pid=${encodeURIComponent(pid)}`, Method.Post, token)
             .then((response) => {
                 if(!response.ok) {
-                    console.log(response.json());
+                    response.text().then(text => {
+                        updateFunc(text);
+                    })
+                } else {
+                    updateFunc("");
                 }
             })
             .catch((err) => {
-                console.error(err);
+                console.log(err)
             })
-        updateFunc();
     }
 
     const checkOut = async () => {
@@ -49,13 +52,16 @@ export default function HardwareControl({token, hardwareSet, pid, updateFunc}: R
         request(`checkout?hwid=${encodeURIComponent(hardwareSet.hwid)}&qty=${encodeURIComponent(quantity.toString())}&pid=${encodeURIComponent(pid)}`, Method.Post, token)
             .then((response) => {
                 if(!response.ok) {
-                    console.log(response.json());
+                    response.text().then(text => {
+                        updateFunc(text);
+                    })
+                } else {
+                    updateFunc("");
                 }
             })
             .catch((err) => {
-                console.error(err);
+                console.log(err)
             })
-        updateFunc();
     }
 
     return (

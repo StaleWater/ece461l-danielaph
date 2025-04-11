@@ -1,9 +1,10 @@
 .project-info-container {
     display: flex;
-    background-color: red;
+    background-color: rgba(135, 135, 135);
     border-radius: 5px;
     width: 70%;
     color: white;
+    border: 1px black solid;
 }
 
 .project-info-text {
@@ -16,4 +17,6 @@
     display: flex;
     flex-direction: column;
     width: 60%;
+    border: 1px black solid;
+    background-color: rgba(100, 100, 100);
 }

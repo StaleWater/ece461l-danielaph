@@ -8,7 +8,7 @@ interface ProjectInfoProps {
     token: Token;
     project: Project;
     hardwareSets: HardwareSet[];
-    updateFunc: () => void;
+    updateFunc: (message: string) => void;
 }
 
 export default function ProjectInfo({token, project, hardwareSets, updateFunc}: Readonly<ProjectInfoProps>) {
