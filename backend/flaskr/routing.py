@@ -13,6 +13,12 @@ db = Database()
 user_man = UserManager(db)
 hw_man = HardwareManager(db)
 
+def escape_dict(d):
+    output = {}
+    for key in d:
+        output[key] = d[key].replace("'", "\'")
+    return output
+
 # serve frontend files
 @app.route("/", defaults={'somePath': ''})
 @app.route('/<path:somePath>') # captures all paths not handled by other routes
@@ -59,8 +65,18 @@ def signup():
 def get_user_projects(username):
     try:
         projects = user_man.get_user_projects(username)
-        jsonString = str(json.loads(json_util.dumps([project.__dict__ for project in projects])))
-        return Response(jsonString.replace("'", "\""), status=201)
+        data = json_util.dumps([project.__dict__ for project in projects])
+
+        # represent single quotes with a dummy character chain that people are unlikely to use
+        dummy = "/(*>)/"
+        data = data.replace("'", dummy)
+
+        jsonString = str(json.loads(data))
+
+        jsonString = jsonString.replace("'", "\"")
+        jsonString = jsonString.replace(dummy, "\'")
+
+        return Response(jsonString, status=201)
     
     except Exception as e:
         error_msg = e.args[0]
