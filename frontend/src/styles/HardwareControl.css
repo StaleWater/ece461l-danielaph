@@ -1,25 +1,25 @@
 .hardwareset-container {
     display: flex;
     background-color: blue;
+    color: white;
 }
 
 .info-container {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
     justify-content: center;
     align-items: center;
 }
 
 .set-name {
-    color: white;
     font-size: 24px;
 }
 
 .control-container {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 50%;
     align-items: center;
     justify-content: center;
 }
@@ -28,4 +28,12 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.hardware-input {
+    margin: 3px !important;
+}
+
+.hardware-button {
+    margin: 6px !important;
 }

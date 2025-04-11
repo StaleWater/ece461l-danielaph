@@ -11,12 +11,16 @@ export interface Project {
   description: string;
 }
 
+export type StringDictionary = {
+  [key: string] : string;
+}
+
 export interface HardwareSet {
   hwid: string;
   hwname: string;
   capacity: Number;
   availability: Number;
-  checked_out: Number[];
+  checked_out: StringDictionary
 }
 
 interface ProjectProps {
@@ -26,6 +30,7 @@ interface ProjectProps {
 export function Projects({token}: Readonly<ProjectProps>) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [hardwareSets, setHardwareSets] = useState<HardwareSet[]>([]);
+  const [forceUpdate, setForceUpdate] = useState<number>(0);
 
   useEffect(() => {
     request("/get-user-projects", Method.Get, token)
@@ -41,7 +46,11 @@ export function Projects({token}: Readonly<ProjectProps>) {
         setHardwareSets(data);
       })
       .catch((err) => console.log(err)); 
-  })
+  }, [forceUpdate])
+
+  const forceRender = () => {
+    setForceUpdate(forceUpdate + 1);
+  }
 
   return (
     <>
@@ -66,7 +75,7 @@ export function Projects({token}: Readonly<ProjectProps>) {
         <List>
           {projects.map((project, index) => (
             <ListItem key={index} sx={{justifyContent: "center"}}>
-              <ProjectInfo project={project} hardwareSets={hardwareSets} />
+              <ProjectInfo project={project} hardwareSets={hardwareSets} updateFunc={forceRender} />
             </ListItem>
           ))}
         </List>
