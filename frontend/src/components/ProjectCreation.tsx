@@ -63,6 +63,9 @@ function ProjectCreation({ token }: ProjectCreationProps) {
         <Button variant="contained" onClick={handleCreateProject} sx={{ mt: 2 }}>
           Create Project
         </Button>
+        <Button variant="contained" onClick={() => navigate("/projects")} sx={{ mt: 2, marginLeft: "4px" }}>
+            Cancel
+        </Button>
       </Box>
     </>
   );

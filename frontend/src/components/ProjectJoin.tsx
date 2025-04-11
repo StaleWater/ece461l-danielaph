@@ -45,6 +45,9 @@ function ProjectJoin({token}: Readonly<ProjectJoinProps>) {
         <Button variant="contained" onClick={handleJoinProject} sx={{ mt: 2 }}>
             Join Project
         </Button>
+        <Button variant="contained" onClick={() => navigate("/projects")} sx={{ mt: 2, marginLeft: "4px" }}>
+            Cancel
+        </Button>
       </Box>
     </>
   );
