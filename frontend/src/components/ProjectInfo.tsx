@@ -2,14 +2,16 @@ import { Project, HardwareSet } from './Projects';
 import HardwareControl from './HardwareControl';
 import { ListItemText } from '@mui/material';
 import "../styles/ProjectInfo.css";
+import { Token } from '../contexts/AuthContext';
 
 interface ProjectInfoProps {
+    token: Token;
     project: Project;
     hardwareSets: HardwareSet[];
     updateFunc: () => void;
 }
 
-export default function ProjectInfo({project, hardwareSets, updateFunc}: Readonly<ProjectInfoProps>) {
+export default function ProjectInfo({token, project, hardwareSets, updateFunc}: Readonly<ProjectInfoProps>) {
     return (
         <>
             <div className="project-info-container">
@@ -19,7 +21,7 @@ export default function ProjectInfo({project, hardwareSets, updateFunc}: Readonl
                 </div>
                 <div className="hardware-container">
                     {hardwareSets.map((hardwareSet, index) => (
-                        <HardwareControl key={index} hardwareSet={hardwareSet} pid={project.pid} updateFunc={updateFunc} />
+                        <HardwareControl key={index} hardwareSet={hardwareSet} pid={project.pid} updateFunc={updateFunc} token={token} />
                     ))}
                 </div>
             </div>

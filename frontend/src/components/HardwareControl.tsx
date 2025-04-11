@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { HardwareSet } from "./Projects"
+import request, { Method } from "../util/request";
 import "../styles/HardwareControl.css";
+import { Token } from "../contexts/AuthContext";
 
 interface HardwareControlProps {
+    token: Token;
     hardwareSet: HardwareSet;
     pid: string;
     updateFunc: () => void;
 }
 
-export default function HardwareControl({hardwareSet, pid, updateFunc}: Readonly<HardwareControlProps>) {
+export default function HardwareControl({token, hardwareSet, pid, updateFunc}: Readonly<HardwareControlProps>) {
     const [quantity, setQuantity] = useState<Number>(0);
 
     const getCheckedOut = () => {
@@ -20,10 +23,38 @@ export default function HardwareControl({hardwareSet, pid, updateFunc}: Readonly
     }
 
     const checkIn = async () => {
+        if(quantity.valueOf() < 1 || quantity > hardwareSet.availability)
+        {
+            console.error("Invalid quantity!");
+        }
+
+        request(`checkin?hwid=${encodeURIComponent(hardwareSet.hwid)}&qty=${encodeURIComponent(quantity.toString())}&pid=${encodeURIComponent(pid)}`, Method.Post, token)
+            .then((response) => {
+                if(!response.ok) {
+                    console.log(response.json());
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            })
         updateFunc();
     }
 
     const checkOut = async () => {
+        if(quantity.valueOf() < 1 || quantity > hardwareSet.availability)
+        {
+            console.error("Invalid quantity!");
+        }
+
+        request(`checkout?hwid=${encodeURIComponent(hardwareSet.hwid)}&qty=${encodeURIComponent(quantity.toString())}&pid=${encodeURIComponent(pid)}`, Method.Post, token)
+            .then((response) => {
+                if(!response.ok) {
+                    console.log(response.json());
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            })
         updateFunc();
     }
 

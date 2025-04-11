@@ -32,6 +32,10 @@ export function Projects({token}: Readonly<ProjectProps>) {
   const [hardwareSets, setHardwareSets] = useState<HardwareSet[]>([]);
   const [forceUpdate, setForceUpdate] = useState<number>(0);
 
+  const delay = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  } 
+
   useEffect(() => {
     request("/get-user-projects", Method.Get, token)
       .then((response) => response.json())
@@ -40,6 +44,7 @@ export function Projects({token}: Readonly<ProjectProps>) {
       })
       .catch((err) => console.log(err));
     
+    delay(2000);
     request("/get-hwsets", Method.Get, token)
       .then((response) => response.json())
       .then((data: HardwareSet[]) => {
@@ -75,7 +80,7 @@ export function Projects({token}: Readonly<ProjectProps>) {
         <List>
           {projects.map((project, index) => (
             <ListItem key={index} sx={{justifyContent: "center"}}>
-              <ProjectInfo project={project} hardwareSets={hardwareSets} updateFunc={forceRender} />
+              <ProjectInfo project={project} hardwareSets={hardwareSets} updateFunc={forceRender} token={token} />
             </ListItem>
           ))}
         </List>

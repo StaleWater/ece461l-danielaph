@@ -14,13 +14,15 @@ class HardwareManager:
         hwset = self.db.get_hw_set(hwid)
         project = self.db.get_project(pid)
 
-        if hwset is None or project is None or qty <= 0:
+        if hwset is None or project is None or int(qty) <= 0:
             return 0
 
-        amt = min(hwset.availability, qty)
+        amt = min(int(hwset.availability), int(qty))
 
         hwset.availability -= amt
-        hwset.checked_out[pid] += amt
+        if(pid not in hwset.checked_out.keys()):
+            hwset.checked_out[pid] = 0
+        hwset.checked_out[pid] += int(amt)
 
         self.db.add_or_update_hw_set(hwset)
         self.db.add_or_update_project(project)
@@ -37,14 +39,16 @@ class HardwareManager:
         hwset = self.db.get_hw_set(hwid)
         project = self.db.get_project(pid)
 
-        if hwset is None or project is None or qty <= 0:
+        if hwset is None or project is None or int(qty) <= 0:
             return False
 
-        if hwset.checked_out[pid] < qty:
+        if hwset.checked_out[pid] < int(qty):
             return False
         
-        hwset.availability += qty
-        hwset.checked_out[pid] -= qty
+        hwset.availability += int(qty)
+        if(pid not in hwset.checked_out.keys()):
+            hwset.checked_out[pid] = 0
+        hwset.checked_out[pid] -= int(qty)
 
         self.db.add_or_update_hw_set(hwset)
         self.db.add_or_update_project(project)

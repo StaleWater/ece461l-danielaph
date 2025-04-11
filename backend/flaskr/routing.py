@@ -163,7 +163,7 @@ def checkout(username):
 
     try:
         qty_checked_out = hw_man.check_out(hwid, qty, pid)
-        return Response(qty_checked_out, status=201)
+        return Response(str(qty_checked_out), status=201)
     
     except Exception as e:
         error_msg = e.args[0]
