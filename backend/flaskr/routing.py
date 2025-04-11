@@ -13,12 +13,6 @@ db = Database()
 user_man = UserManager(db)
 hw_man = HardwareManager(db)
 
-def escape_dict(d):
-    output = {}
-    for key in d:
-        output[key] = d[key].replace("'", "\'")
-    return output
-
 # serve frontend files
 @app.route("/", defaults={'somePath': ''})
 @app.route('/<path:somePath>') # captures all paths not handled by other routes
